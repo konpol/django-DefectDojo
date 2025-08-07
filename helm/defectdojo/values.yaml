@@ -44,23 +44,23 @@ networkPolicy:
 # Set the "enable" field to true of the database type you select (if you want to use internal database) and false of the one you don't select
 database: postgresql
 # Primary hostname of instance
-host: defectdojo.default.minikube.local
+host: defectdojo-defectdojo.apps.lab.ocp.ad.dom
 
 # The full URL to your defectdojo instance, depends on the domain where DD is deployed, it also affects links in Jira
-# site_url: 'https://<yourdomain>'
+siteUrl: 'https://defectdojo-defectdojo.apps.lab.ocp.ad.dom'
 
 # optional list of alternative hostnames to use that gets appended to
 # DD_ALLOWED_HOSTS. This is necessary when your local hostname does not match
 # the global hostname.
-# alternativeHosts:
-#  - defectdojo.example.com
+alternativeHosts:
+  - defectdojo-defectdojo.apps.lab.ocp.ad.dom
 imagePullPolicy: Always
 # Where to pull the defectDojo images from. Defaults to "defectdojo/*" repositories on hub.docker.com
-repositoryPrefix: quay-reg-s3-quay-quay-registry.apps.lab.ocp.ad.dom/defectdojo/defectdojo/
+repositoryPrefix: quay-reg-s3-quay-quay-registry.apps.lab.ocp.ad.dom/defectdojo/defectdojo
 # When using a private registry, name of the secret that holds the registry secret (eg deploy token from gitlab-ci project)
 # Create secrets as: kubectl create secret docker-registry defectdojoregistrykey --docker-username=registry_username --docker-password=registry_password --docker-server='https://index.docker.io/v1/'
 # imagePullSecrets: defectdojoregistrykey
-tag: latest
+tag: 1.6.200
 
 securityContext:
   enabled: true
@@ -444,10 +444,10 @@ rabbitmq:
       memory: 512Mi
   podSecurityContext:
     enabled: true
-    fsGroup: 1001
+    fsGroup: 1000740000
   containerSecurityContext:
     enabled: true
-    runAsUser: 1001
+    runAsUser: 1000740000
     runAsNonRoot: true
 
 # For more advance options check the bitnami chart documentation: https://github.com/bitnami/charts/tree/master/bitnami/redis
@@ -474,8 +474,9 @@ redis:
 
 # Extra secrets can be created inside of extraSecrets block:
 # NOTE  This is just an exmaple, do not store sensitive data in plain text form, better inject it during the deployment/upgrade by --set extraSecrets.secret=someSecret
-# extraSecrets:
-#   DD_SOCIAL_AUTH_AUTH0_SECRET: 'xxx'
+extraSecrets:
+  secret1: value1
+  secret2: value2
 extraConfigs: {}
 
 # To add (or override) extra variables which need to be pulled from another configMap, you can
