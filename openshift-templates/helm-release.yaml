@@ -1,0 +1,255 @@
+admin:
+  credentialAes256Key: null
+  firstName: Administrator
+  lastName: User
+  mail: admin@defectdojo.local
+  metricsHttpAuthPassword: null
+  password: null
+  secretKey: null
+  user: admin
+annotations: {}
+celery:
+  annotations: {}
+  beat:
+    affinity: {}
+    annotations: {}
+    nodeSelector: {}
+    replicas: 1
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    tolerations: []
+  broker: redis
+  brokerHost: ''
+  extraVolumes: []
+  logLevel: INFO
+  worker:
+    affinity: {}
+    annotations: {}
+    appSettings:
+      poolType: solo
+    nodeSelector: {}
+    replicas: 1
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    tolerations: []
+cloudsql:
+  enable_iam_login: false
+  enabled: false
+  image:
+    pullPolicy: IfNotPresent
+    repository: gcr.io/cloudsql-docker/gce-proxy
+    tag: 1.37.8
+  instance: ''
+  use_private_ip: false
+  verbose: true
+createPostgresqlSecret: true
+createRedisSecret: true
+createSecret: true
+dbMigrationChecker:
+  enabled: true
+  resources:
+    limits:
+      cpu: 200m
+      memory: 200Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+django:
+  affinity: {}
+  annotations: {}
+  extraVolumes: []
+  ingress:
+    activateTLS: true
+    annotations: {}
+    enabled: true
+    ingressClassName: ''
+    secretName: defectdojo-tls
+  mediaPersistentVolume:
+    enabled: true
+    fsGroup: 1000740000
+    name: media
+    persistentVolumeClaim:
+      accessModes:
+        - ReadWriteMany
+      create: false
+      name: null
+      size: 5Gi
+      storageClassName: null
+    type: emptyDir
+  nginx:
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    tls:
+      enabled: false
+      generateCertificate: false
+  nodeSelector: {}
+  replicas: 1
+  service:
+    annotations: {}
+    type: ''
+  strategy: {}
+  tolerations: []
+  uwsgi:
+    appSettings:
+      processes: 2
+      threads: 2
+    certificates:
+      certFileName: ca.crt
+      certMountPath: /certs/
+      configName: defectdojo-ca-certs
+      enabled: false
+    enableDebug: false
+    livenessProbe:
+      enabled: true
+      failureThreshold: 6
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    readinessProbe:
+      enabled: true
+      failureThreshold: 6
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    startupProbe:
+      enabled: true
+      failureThreshold: 30
+      initialDelaySeconds: 0
+      periodSeconds: 5
+      successThreshold: 1
+      timeoutSeconds: 1
+extraConfigs: {}
+extraSecrets:
+  secret1: value1
+  secret2: value2
+gke:
+  useGKEIngress: false
+  useManagedCertificate: false
+  workloadIdentityEmail: ''
+host: defectdojo-defectdojo.apps.lab.ocp.ad.dom
+siteUrl: https://defectdojo-defectdojo.apps.lab.ocp.ad.dom
+alternativeHosts:
+  - defectdojo-defectdojo.apps.lab.ocp.ad.dom
+imagePullPolicy: Always
+initializer:
+  affinity: {}
+  annotations: {}
+  extraVolumes: []
+  jobAnnotations: {}
+  keepSeconds: 60
+  labels: {}
+  nodeSelector: {}
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  run: true
+  staticName: false
+monitoring:
+  enabled: false
+  prometheus:
+    enabled: false
+    image: 'nginx/nginx-prometheus-exporter:1.4.2'
+    imagePullPolicy: IfNotPresent
+networkPolicy:
+  annotations: {}
+  egress: []
+  enabled: false
+  ingress: []
+  ingressExtend: []
+podLabels: {}
+postgresql:
+  architecture: standalone
+  auth:
+    database: defectdojo
+    existingSecret: defectdojo-postgresql-specific
+    password: ''
+    secretKeys:
+      adminPasswordKey: postgresql-postgres-password
+      replicationPasswordKey: postgresql-replication-password
+      userPasswordKey: postgresql-password
+    username: defectdojo
+  enabled: true
+  primary:
+    affinity: {}
+    containerSecurityContext:
+      enabled: true
+      runAsUser: 1000740000
+    name: primary
+    nodeSelector: {}
+    persistence:
+      enabled: true
+    podSecurityContext:
+      enabled: true
+      fsGroup: 1000740000
+    service:
+      ports:
+        postgresql: 5432
+  shmVolume:
+    chmod:
+      enabled: false
+  volumePermissions:
+    containerSecurityContext:
+      runAsUser: 1000740000
+    enabled: false
+redis:
+  architecture: standalone
+  auth:
+    existingSecret: defectdojo-redis-specific
+    existingSecretPasswordKey: redis-password
+    password: ''
+  enabled: true
+  scheme: redis
+  transportEncryption:
+    enabled: false
+    params: ''
+repositoryPrefix: quay-reg-s3-quay-quay-registry.apps.lab.ocp.ad.dom/defectdojo
+secrets:
+  annotations: {}
+securityContext:
+  djangoSecurityContext:
+    runAsUser: 1000740000
+  enabled: true
+  nginxSecurityContext:
+    runAsUser: 1000740000
+serviceAccount:
+  annotations: {}
+  create: true
+  labels: {}
+tag: 1.6.200
+tests:
+  unitTests:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 128M
